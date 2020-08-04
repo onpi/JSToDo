@@ -1,21 +1,31 @@
-function navMenu() {
-  const menuTrigger = document.getElementById('menuTrigger');
-  const menuWrap = document.getElementById('menuWrap');
-  if(menuTrigger.classList.contains('active') && menuWrap.classList.contains('open')) {
-    menuTrigger.classList.remove('active');
-    menuWrap.classList.remove('open');
-  }else {
-    menuTrigger.classList.add('active');
-    menuWrap.classList.add('open');
+
+let list = document.querySelector('#todoList');
+function addTodo(e) {
+  // 追加するテキスト取得
+  let addText = document.getElementById('addText').value;
+  // テキストが入力されているか判定
+  if(addText) {
+    let todoList = document.getElementById('todoList');
+    let listHTML = '';
+    listHTML += `
+    <div class="todo_list">
+      <p class="todo_contents">${ addText }</p>
+      <button type="button" class="delete">-</button>
+    </div>`;
+    // #todoListの閉じタグの前に挿入
+    todoList.insertAdjacentHTML('beforeend', listHTML);
+    // 入力フォームリセット
+    document.getElementById('addText').value = '';
   }
 }
-// ハンバーガメニュークリック
-document.getElementById('menuTrigger').addEventListener('click', navMenu);
-// 黒いマスククリックで閉じる
-document.querySelector('.overlay').addEventListener('click', navMenu);
-// ページ内スクロール時の処理
-let navItem = document.querySelectorAll('.nav_item');
-navItem.forEach(function(item){
-  item.addEventListener('click', navMenu);
-});
+document.querySelector('#add').addEventListener('click', addTodo);
+
+// 削除機能
+function deleteList(e) {
+  if (e.target.classList.contains('delete')){
+    e.target.parentElement.remove();
+  }
+  console.log(e.target.classList);
+}
+list.addEventListener('click', deleteList);
 
